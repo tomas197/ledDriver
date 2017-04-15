@@ -50,40 +50,38 @@ void testDriverCreateDebeEstadosDeLosLeds() {
 
 }
 void testDriverCreateDebeValoresLimitesDeLosLeds() {
-	address = 0xFFFF;
-	ValLim = ledValoresLimites_Estado0(&address,0);
-	TEST_ASSERT_EQUAL_HEX16(0, ValLim);
+		int16_t ValLim;
 
-	address = 0x8000;
-	ValLim = ledValoresLimites_Estado15(&address,15);
-	TEST_ASSERT_EQUAL_HEX16(1, ValLim);
+		address = 0x0000;
+		ValLim = ledEstatus(&address,0);
+		TEST_ASSERT_EQUAL(0, ValLim);
 
-	address = 0x8000
-	ValLim = ledValoresLimites_LedOn0(&address,0);
-	TEST_ASSERT_EQUAL_HEX16(0, ValLim);
+		address = 0x8000;
+		ValLim = ledEstatus(&address,15);
+		TEST_ASSERT_EQUAL(1, ValLim);
 
-	address = 0x8000
-	ValLim = ledValoresLimites_LedOn15(&address,15);
-	TEST_ASSERT_EQUAL_HEX16(1, ValLim);
+		ValLim = ledEncendido_individual(&address,0);
+		TEST_ASSERT_EQUAL(0, ValLim);
 
-	address = 0x8000
-	ValLim = ledValoresLimites_LedOff0(&address,0);
-	TEST_ASSERT_EQUAL_HEX16(0, ValLim);
+		ValLim = ledEncendido_individual(&address,15);
+		TEST_ASSERT_EQUAL(0, ValLim);
 
-	address = 0x8000
-	ValLim = ledValoresLimites_LedOff15(&address,15);
-	TEST_ASSERT_EQUAL_HEX16(1, ValLim);
+		ValLim = ledApagado_individual(&address,0);
+		TEST_ASSERT_EQUAL(0, ValLim);
 
+		ValLim = ledApagado_individual(&address,15);
+		TEST_ASSERT_EQUAL(0, ValLim);
 }
 void testDriverCreateDebeValoresFueraDeLimitesDeLosLeds() {
-	address = 0xFFFF;
-	FueLim = ledValoresFueraLimites_Estado(&address,16);
-	TEST_ASSERT_EQUAL_HEX16(-1, FueLim);
+		int16_t FueLim;
 
-	FueLim = ledValoresFueraLimites_LedOn(&address,16);
-	TEST_ASSERT_EQUAL_HEX16(-1, FueLim);
+		FueLim = ledEstatus(&address,18);
+		TEST_ASSERT_EQUAL(-1, FueLim);
 
-	FueLim = ledValoresFueraLimites_LedOff(&address,16);
-	TEST_ASSERT_EQUAL_HEX16(-1, FueLim);
+		FueLim = ledEncendido_individual(&address,25);
+		TEST_ASSERT_EQUAL(-1, FueLim);
+
+		FueLim = ledApagado_individual(&address,780);
+		TEST_ASSERT_EQUAL(-1, FueLim);
 
 }
